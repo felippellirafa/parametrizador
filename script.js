@@ -2,7 +2,7 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycbzPOoPcWQUaQyzj6GxoYIDsEGl1wnr7G9sDhwnaGCNreJhYgWrP_faUEtnoCqVQH2T7/exec";
 
 document.addEventListener("DOMContentLoaded", function() {
-  var sources = ["adsmovil","adsplay","afresp","bing","cdc","cerpe","crm","nac","facebook","google","instagram","linkedin","memed","perplexity","sfmc","social","spotify","tiktok","uber","yahoo","yandex","youtube","firebase","comunicacaotwilio"];
+  var sources = ["adsmovil", "adsplay", "afresp", "alta", "alvaro", "atalaia", "bing", "bronstein", "cdc", "cdpi", "cedic", "cerpe", "comunicacaotwilio", "crm", "cytolab", "delboni", "deliberato", "exame", "facebook", "firebase", "frischmann", "google", "instagram", "lavoisier", "linkedin", "memed", "nac", "perplexity", "salomao", "sergiof", "sfmc", "social", "spotify", "tiktok", "uber", "yahoo","yandex", "youtube"];
   var mediums = ["cpc","cpm","cpv","email","sms","social","whatsapp","push","qrcode","dynamic-link","link-bio","display","totem","chatbot","webpush","site"];
   var marcas = ["alta","alvaro","atalaia","bronstein","boris","cdpi","cediccedilab","cerpe","cytolab","delboni","deliberato","exame","frischmann","gilsoncidrim","image","itulab","lavoisier","leme","lamina","multiimagem","oswaldocruz","padrao","previlab","salomaozoppi","sergiofranco","saocamilo","valeclin","vitalbrasil","dasa","nav","alvaroapoio","dasaeduca","ciia","chromatox","genomica","navpro","genera"];
   var canais = ["google","facebook","chatbot","ura","memed","link-bio","qrcode","totem-cdpi","pmax","crm"];
