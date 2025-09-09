@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Construtor de URLs UTM</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-canto"><img src="logo-dasa.png" alt="Logo da empresa" /></div>
+    <h1>Construtor de URLs</h1>
+    <h2>Ferramenta destinada a parametrizar, encurtar e gerar QR-Code personalizados no ambiente DASA.</h2><br>
+    
+    <!-- Acordeon com critérios -->
+    <details class="accordion">
+      <summary>
+        <span>Critérios para atribuição em cada canal</span>
+        <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 10l5 5 5-5" />
+        </svg>
+      </summary>
+      <div class="accordion-content">
+        <table class="criterios">
+          <thead>
+            <tr>
+              <th>Canal</th>
+              <th>Critério (source/medium)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Paid Search</td><td>medium contém “cpc” E source não é rede social</td></tr>
+            <tr><td>Paid Social</td><td>medium contém “cpc” E source é uma rede social</td></tr>
+            <tr><td>Organic Social</td><td>medium contém “social”</td></tr>
+            <tr><td>Fluxos NAC</td><td>source contém “comunicacaotwilio”</td></tr>
+            <tr><td>CRM</td><td>source contém “crm” ou medium contém “email”</td></tr>
+            <tr><td>Sites Monomarca</td><td>medium contém “site” E referral é um dos domínios de marcas do grupo E id_campanha contém "cta"</td></tr>
+            <tr><td>Blog</td><td>medium contém “site” E referral é um dos domínios de marcas do grupo E id_campanha contém "seo"</td></tr>
+            <tr><td>Referral</td><td>medium contém “referral” e não está na lista de monomarcas</td></tr>
+            <tr><td>Direto</td><td>source contém “direct”</td></tr>
+            <tr><td>Search Organic</td><td>medium contém “organic”</td></tr>
+            <tr><td>Outros</td><td>Qualquer tráfego que não se enquadre nas regras acima</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <!-- Escolha do destino / domínio curto -->
+    <section class="card">
+      <h3>1) Escolha o destino dos links</h3>
+      <div class="destino-opcoes">
+        <label class="radio-card">
+          <input type="radio" name="destino" id="destinoNav" value="nav" checked>
+          <div>
+            <strong>NAV (Agendamentos)</strong>
+            <small>Usa domínio curto <code>navdasa.link</code></small>
+          </div>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="destino" id="destinoSites" value="sites">
+          <div>
+            <strong>Outros Sites (Monomarcas)</strong>
+            <small>Usa domínio curto <code>dasa.link</code></small>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    
+
+    <!-- Escolha do modo -->
+   <section class="card">
+  <h3>2) Escolha o modo de uso</h3>
+  <div class="modo-opcoes">
+    <label class="radio-card">
+      <input type="radio" name="modo" value="param" checked>
+      <div>
+        <strong>Parametrizar + Encurtar/QR</strong>
+        <small>Gera UTM e depois encurta/QR</small>
+      </div>
+    </label>
+
+    <label class="radio-card">
+      <input type="radio" name="modo" value="quick">
+      <div>
+        <strong>Somente Encurtar/QR</strong>
+        <small>Sem parametrizar antes</small>
+      </div>
+    </label>
+  </div>
+</section>
+
+
+    <!-- Formulário -->
+    <section id="secForm" class="card">
+      <form id="utmForm" onsubmit="event.preventDefault(); gerarURL();">
+        <label>URL de destino:
+          <input type="text" id="url" placeholder="https://www.seusite.com/pagina" required />
+          <small class="error-message" id="url-error"></small>
+        </label>
+
+        <label class="utm-only">utm_source:
+          <select id="source" required></select>
+          <small class="error-message" id="source-error"></small>
+        </label>
+
+        <label class="utm-only">utm_medium:
+          <select id="medium" required></select>
+          <small class="error-message" id="medium-error"></small>
+        </label>
+
+        <label class="utm-only">ID da Campanha:
+          <input type="text" id="idCampanha" placeholder="DA-1234" required />
+          <small class="error-message" id="idCampanha-error"></small>
+        </label>
+
+        <label class="utm-only">Marca da Campanha:
+          <select id="marca" required></select>
+          <small class="error-message" id="marca-error"></small>
+        </label>
+
+        <label class="utm-only">Canal de veiculação:
+          <select id="canal" required></select>
+          <small class="error-message" id="canal-error"></small>
+        </label>
+
+        <label class="utm-only">Formato:
+          <select id="formato" required></select>
+          <small class="error-message" id="formato-error"></small>
+        </label>
+
+        <label class="utm-only">Nome da Campanha:
+          <input type="text" id="nomeCampanha" placeholder="vacina-gripe-maio" required />
+          <small class="error-message" id="nomeCampanha-error"></small>
+        </label>
+
+        <label class="utm-only">Objetivo:
+          <select id="objetivo" required></select>
+          <small class="error-message" id="objetivo-error"></small>
+        </label>
+
+        <label>Seu email:
+          <input type="email" id="email" placeholder="seu@email.com" required />
+          <small class="error-message" id="email-error"></small>
+        </label>
+
+        <p class="utm-only"><b>Importante!</b> <br>URLs parametrizadas com critérios diferentes desta ferramenta serão classificadas como "Outros". Sessões e conversões não serão contabilizadas para o canal esperado.<br><br>Em caso de dúvidas ou bugs contatar rafael.felippelli@dasa.com.br ou time Martech - Advanced Analytics</p>
+        <button id="btnGerar" type="submit">Gerar URL</button>
+      </form>
+
+      <div id="resultado" class="resultado" style="display:none;">
+        <div>
+          <strong id="labelUrlGerada">URL Parametrizada:</strong><br/>
+          <input type="text" id="urlGerada" readonly>
+          <button onclick="copiarTexto('urlGerada')">Copiar</button>
+        </div>
+
+        <div id="shortContainer" style="display:none; margin-top:10px;">
+          <strong>URL Encurtada:</strong><br/>
+          <input type="text" id="urlCurta" readonly>
+          <button onclick="copiarTexto('urlCurta')">Copiar</button>
+        </div>
+
+        <div class="acoes" style="margin-top:15px;">
+          <button id="btnShorten">Encurtar URL</button>
+          <button id="btnQr">Gerar QR Code</button>
+        </div>
+
+        <div id="qrContainer" style="margin-top:20px; display:none;">
+          <div id="qrcode"></div>
+          <div class="qr-actions">
+            <label for="formatoDownload">Formato:</label>
+            <select id="formatoDownload">
+              <option value="png">PNG</option>
+              <option value="jpeg">JPEG</option>
+              <option value="svg">SVG</option>
+            </select>
+            <button onclick="baixarQRCode()">Baixar QR Code</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
